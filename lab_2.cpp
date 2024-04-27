@@ -3,11 +3,23 @@
 
 #include <iostream>
 
+bool static stream_with_error(std::istream* input) {
+	if (input->fail()) {
+		input->clear();
+		input->ignore(INT_MAX, '\n');
+		return true;
+	}
+
+	return false;
+}
+
 void static task_1() {
 	float x, y;
 
-	std::cout << "Введите x: ";
-	std::cin >> x;
+	do {
+		std::cout << "Введите x:" << std::endl;
+		std::cin >> x;
+	} while (stream_with_error(&std::cin));
 
 	if (x < -3) {
 		y = 3;
@@ -39,8 +51,6 @@ void static task_2() {
 	bool dot_in_area = y < 0 ? false : !dot_in_circle(x, y, 1) && dot_in_circle(x, y, 4);
 
 	std::cout << "Точка принадлежит фигуре: " << (dot_in_area ? "Да" : "Нет") << std::endl;
-
-	system("pause");
 }
 
 void static task_3() {
@@ -67,9 +77,9 @@ int main()
 {
 	setlocale(LC_ALL, "");
 
-	//task_1();
+	task_1();
 	//task_2();
-	task_3();
+	//task_3();
 }
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
